@@ -6,7 +6,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{A7BCE3B7-7F15-B29F-99EE-4AABC83236EA}</ProjectGuid>
+    <ProjectGuid>{C185E9FE-7CFA-882B-00C6-C8EE1E7C5A49}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -45,7 +45,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\RandomMovementScript.cs" />
+     <Compile Include="Assets\Scripts\Behaviours\AttributesManager.cs" />
+     <Compile Include="Assets\Scripts\Behaviours\DamageCounter.cs" />
+     <Compile Include="Assets\Scripts\Behaviours\FollowBehaviour.cs" />
+     <Compile Include="Assets\Scripts\Behaviours\FuelMonitor.cs" />
+     <Compile Include="Assets\Scripts\Behaviours\RandomMovementScript.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

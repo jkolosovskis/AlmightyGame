@@ -1,7 +1,7 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2015
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlmightyGame.CSharp", "AlmightyGame.CSharp.csproj", "{A84394C9-3DFD-DE04-849D-2E98F62232ED}"
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2008
+
+Project("{3EC81953-A5D8-3B62-7E75-107F8D41FC0C}") = "AlmightyGame", "Assembly-CSharp.csproj", "{C185E9FE-7CFA-882B-00C6-C8EE1E7C5A49}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,12 +9,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A84394C9-3DFD-DE04-849D-2E98F62232ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A84394C9-3DFD-DE04-849D-2E98F62232ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A84394C9-3DFD-DE04-849D-2E98F62232ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A84394C9-3DFD-DE04-849D-2E98F62232ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C185E9FE-7CFA-882B-00C6-C8EE1E7C5A49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C185E9FE-7CFA-882B-00C6-C8EE1E7C5A49}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C185E9FE-7CFA-882B-00C6-C8EE1E7C5A49}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C185E9FE-7CFA-882B-00C6-C8EE1E7C5A49}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Assembly-CSharp.csproj
 	EndGlobalSection
 EndGlobal
