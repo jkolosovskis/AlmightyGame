@@ -67,6 +67,8 @@
     <Compile Include="Assets\Scripts\Behaviours\DamageCounter.cs" />
     <Compile Include="Assets\Scripts\Behaviours\FollowBehaviour.cs" />
     <Compile Include="Assets\Scripts\Behaviours\FuelMonitor.cs" />
+    <Compile Include="Assets\Scripts\Behaviours\InertialBehaviour.cs" />
+    <Compile Include="Assets\Scripts\Behaviours\RadiationBehaviour.cs" />
     <Compile Include="Assets\Scripts\Behaviours\RandomMovementScript.cs" />
     <Compile Include="Assets\Scripts\Behaviours\magneticBehaviour.cs" />
     <Compile Include="Assets\Scripts\Startup\SwarmSpawnScript.cs" />

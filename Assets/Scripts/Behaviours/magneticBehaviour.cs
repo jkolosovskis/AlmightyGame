@@ -3,7 +3,8 @@ using System.Collections;
 
 public class magneticBehaviour : MonoBehaviour {
     private GameObject[] magneticTargetObject;
-    public float magneticForceMultiplier = -2f;    public float maxMagneticDistance = 5f;
+    public float magneticForceMultiplier = -2f;
+    public float maxMagneticDistance = 5f;
     
     // On start we find all objects that we could affect by our magnetic field
     // Note that if any swarm objects are made during simulation, this script needs to also include updates of the possible target objects.
@@ -34,8 +35,9 @@ public class magneticBehaviour : MonoBehaviour {
                     // Finally, we apply our predefined multiplier of magnetic interaction
                     magneticForce = magneticForce * magneticForceMultiplier;
                     // Now that we have calculated the precise force, we apply it to the target object.
-                    Rigidbody2D targetBody = magneticTargetObject[i].GetComponent<Rigidbody2D>();
-                    targetBody.AddForce(magneticForce);
+                    FuelMonitor fuelScript = magneticTargetObject[i].GetComponent<FuelMonitor>();
+                    //targetBody.AddForce(magneticForce);
+                    fuelScript.AddForce(magneticForce,true);
                 }
             }
         }
