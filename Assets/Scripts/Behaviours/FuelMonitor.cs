@@ -59,14 +59,16 @@ public class FuelMonitor : MonoBehaviour
         totalIndependentForce = Vector2.zero;
     }
     public void updateFuel(float fuelDelta){
-        fuelLevel -= fuelDelta;
-        if (fuelLevel <= 0f){
-            // stop all fuel consuming scripts if fuel level is zero and any behaviour is still running
-            Debug.Log(string.Concat("Empty fuel handling entered"));
-            fuelLevel = 0;
-            scriptsEnable = false;
+        if (scriptsEnable != false) {
+            fuelLevel -= fuelDelta;
+            if (fuelLevel <= 0f) {
+                // stop all fuel consuming scripts if fuel level is zero and any behaviour is still running
+                Debug.Log(string.Concat("Empty fuel handling entered"));
+                fuelLevel = 0;
+                scriptsEnable = false;
+            }
+            if (fuelLevel <= 0f) fuelLevel = 0f;
+            //***Reserved space here for behaviour re-enable***
         }
-        if (fuelLevel <= 0f) fuelLevel = 0f;
-        //***Reserved space here for behaviour re-enable***
     }
 }

@@ -30,6 +30,23 @@ public class DamageCounter : MonoBehaviour
             craterPrefab = (GameObject)Instantiate(temp, (Vector3)gameObject.GetComponent<Rigidbody2D>().position, gameObject.transform.rotation);
             craterPrefab.AddComponent<ExplosionEffect>().setExplosionFuel(fuelMonitor.getFuelLevel());
             Debug.Log("Remaining fuel level for explosion passed as " + fuelMonitor.getFuelLevel().ToString());
+            // If we had consumed an object before, we let it go free here.
+            GameObject consumedObject = Attributes.getConsumedBody();
+            if (consumedObject != null){
+                consumedObject.gameObject.GetComponent<HingeJoint2D>().enabled = false;
+                // consumedObject.transform.localPosition = craterPrefab.transform.position;
+                /*
+                if (consumedObject != null) {
+                    GameObject newConsumable = Instantiate(consumedObject);
+                    Rigidbody2D rb = newConsumable.AddComponent<Rigidbody2D>();
+                    rb.mass = 0.1f;
+                    rb.gravityScale = 0f;
+                    newConsumable.transform.localScale = this.gameObject.transform.localScale;
+                    newConsumable.transform.localPosition = this.gameObject.transform.localPosition;
+                }
+                */
+            }
+
             // Finally we get rid of the swarm element that was destroyed.
             Destroy(gameObject);
         }
