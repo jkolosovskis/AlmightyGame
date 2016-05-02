@@ -7,6 +7,7 @@ public class ConsumeBehaviour : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         hinge = this.gameObject.GetComponent<HingeJoint2D>();
+        hinge.enabled = false;
     }
 	
 	// Update is called once per frame
@@ -16,10 +17,13 @@ public class ConsumeBehaviour : MonoBehaviour {
     void OnTriggerEnter2D(Collider2D other) {
         Debug.Log("Collision with a consumable object detected");
         if (other.gameObject.CompareTag("SwarmElements")){
-            other.gameObject.GetComponent<AttributesManager>().setConsumedBody(this.gameObject);
-            hinge.enabled = true;
-            hinge.connectedBody = other.gameObject.GetComponent<Rigidbody2D>();
-            hinge.connectedAnchor = Vector2.zero;
+            // Before we consume this object, check if the target object has not consumed anything already.
+            if (other.gameObject.GetComponent<AttributesManager>().hasConsumedBody() != true) {
+                other.gameObject.GetComponent<AttributesManager>().setConsumedBody(this.gameObject);
+                hinge.enabled = true;
+                hinge.connectedBody = other.gameObject.GetComponent<Rigidbody2D>();
+                hinge.connectedAnchor = Vector2.zero;
+            }
         }
     }
 }

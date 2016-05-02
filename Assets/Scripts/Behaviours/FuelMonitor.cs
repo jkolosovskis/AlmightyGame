@@ -8,10 +8,12 @@ public class FuelMonitor : MonoBehaviour
     private float inertialCoefficient = 0f;
     private Vector2 totalIndependentForce = Vector2.zero;
     private Vector2 totalFuelEffectedForce = Vector2.zero;
+    private Vector2 externalForceRegister = Vector2.zero;
 
     private RandomMovementScript randomMovementScript;
     private FollowBehaviour followBehaviourScript;
     private InertialBehaviour inertialBehaviourScript;
+    private ReactiveBehaviour reactiveBehaviourScript;
     private Rigidbody2D thisBody;
 
     public float getFuelLevel(){
@@ -20,6 +22,9 @@ public class FuelMonitor : MonoBehaviour
     public void AddForce(Vector2 force, bool isExternalForce){
         if (isExternalForce == false) totalFuelEffectedForce += force;
         else totalIndependentForce += force;
+    }
+    public Vector2 getExternalForces(){
+        return externalForceRegister;
     }
     // Use this for initialization
 	void Start (){
@@ -38,15 +43,15 @@ public class FuelMonitor : MonoBehaviour
             inertialBehaviourScript = gameObject.GetComponent<InertialBehaviour>();
             inertialCoefficient = inertialBehaviourScript.getInertialCoefficient();
         }
+        if (gameObject.GetComponent<ReactiveBehaviour>() != null)
+        {
+            reactiveBehaviourScript = gameObject.GetComponent<ReactiveBehaviour>();
+        }
         // finally we identify what gameobject's rigidbody2D this script is attached to
         thisBody = gameObject.GetComponent<Rigidbody2D>();
     }
 	void FixedUpdate (){
-        // First we check if we have been given a signal to stop running scripts, and act accordingly.
-        if (scriptsEnable == false & randomMovementScript != null) randomMovementScript.enabled = false;
-        if (scriptsEnable == false & followBehaviourScript != null) followBehaviourScript.enabled = false;
-        if (scriptsEnable == false & inertialBehaviourScript != null) inertialBehaviourScript.enabled = false;
-        // Next, we apply the total requested force to the object this script is attached to, and calculate the loss
+        // Here we apply the total requested force to the object this script is attached to, and calculate the loss
         // of fuel resulting from force application.
         // We also implement inertial behaviour here, but use the InertialBehaviour script to retrieve
         // the relevant inertia coefficients.
@@ -54,9 +59,14 @@ public class FuelMonitor : MonoBehaviour
         Vector2 fuelEffectedForce = totalFuelEffectedForce + fullForce * Mathf.Abs(inertialCoefficient);
         thisBody.AddForce(fullForce);
         updateFuel(fuelEffectedForce.magnitude);
+        // Notify other scripts of the sum of external forces
+        // Note that a new Vector2 is set up to avoid cases where externalForceRegister is updated with
+        // a reference to totalIndependentForce instead of a clone of it.
+        externalForceRegister = new Vector2(totalIndependentForce.x, totalIndependentForce.y);
         // Bugfix - we reset the total applied force counters here
         totalFuelEffectedForce = Vector2.zero;
         totalIndependentForce = Vector2.zero;
+        
     }
     public void updateFuel(float fuelDelta){
         if (scriptsEnable != false) {
@@ -64,8 +74,13 @@ public class FuelMonitor : MonoBehaviour
             if (fuelLevel <= 0f) {
                 // stop all fuel consuming scripts if fuel level is zero and any behaviour is still running
                 Debug.Log(string.Concat("Empty fuel handling entered"));
-                fuelLevel = 0;
                 scriptsEnable = false;
+                fuelLevel = 0;
+                // We also stop any fuel consuming scripts here.
+                if (randomMovementScript != null) randomMovementScript.enabled = false;
+                if (followBehaviourScript != null) followBehaviourScript.enabled = false;
+                if (inertialBehaviourScript != null) inertialBehaviourScript.enabled = false;
+                if (reactiveBehaviourScript != null) reactiveBehaviourScript.enabled = false;
             }
             if (fuelLevel <= 0f) fuelLevel = 0f;
             //***Reserved space here for behaviour re-enable***

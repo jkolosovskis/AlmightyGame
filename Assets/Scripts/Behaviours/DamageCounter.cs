@@ -34,17 +34,6 @@ public class DamageCounter : MonoBehaviour
             GameObject consumedObject = Attributes.getConsumedBody();
             if (consumedObject != null){
                 consumedObject.gameObject.GetComponent<HingeJoint2D>().enabled = false;
-                // consumedObject.transform.localPosition = craterPrefab.transform.position;
-                /*
-                if (consumedObject != null) {
-                    GameObject newConsumable = Instantiate(consumedObject);
-                    Rigidbody2D rb = newConsumable.AddComponent<Rigidbody2D>();
-                    rb.mass = 0.1f;
-                    rb.gravityScale = 0f;
-                    newConsumable.transform.localScale = this.gameObject.transform.localScale;
-                    newConsumable.transform.localPosition = this.gameObject.transform.localPosition;
-                }
-                */
             }
 
             // Finally we get rid of the swarm element that was destroyed.
