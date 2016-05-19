@@ -7,6 +7,7 @@ public class VictorySurvival : MonoBehaviour {
     public float survivalTimeCounter = 0f;
 
     private GameObject[] swarmObjects;
+    private VictoryManager victoryManager;
     private int timeDivisor = 50;
     private int timeCounter = 0;
     private bool firstTimeCheckCompleted = false;
@@ -21,13 +22,17 @@ public class VictorySurvival : MonoBehaviour {
         Debug.Log("Number of detected alive elements: " + numAliveElements.ToString());
         // Now that we have the number of swarm elements alive, we check if the percentage of alive elements
         // equals or exceeds the victory target.
-        float aliveElementsPerc = numAliveElements / swarmObjects.Length * 100;
+        // Bugfix - type cast into floats required, as the division is done with integer numbers before beint type cast into a float
+        // on the result.
+        float aliveElementsPerc = ((float)numAliveElements / (float)swarmObjects.Length) * 100;
+        Debug.Log("Percentage of detected alive elements: " + aliveElementsPerc.ToString());
+        Debug.Log("Total Nr of swarm elements: " + swarmObjects.Length.ToString());
         if (aliveElementsPerc >= survivalPerc) {
-            // Insert victory message here
+            victoryManager.notifySurvival(true);
             Debug.Log("Survival victory conditions satisfied");
         }
         else {
-            // Insert defeat message here
+            victoryManager.notifySurvival(false);
             Debug.Log("Survival victory conditions failed");
         }
     }
@@ -40,7 +45,7 @@ public class VictorySurvival : MonoBehaviour {
     // and after expiration of the survival time check if the defined percentage of swarm elements
     // are still present in the scene.
     void Start() {
-        // Do nothing
+        victoryManager = gameObject.GetComponent<VictoryManager>();
     }
     void FixedUpdate () {
         timeCounter++;

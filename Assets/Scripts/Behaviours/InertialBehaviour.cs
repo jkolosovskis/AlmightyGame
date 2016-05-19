@@ -11,7 +11,6 @@ public class InertialBehaviour : MonoBehaviour {
 	    // do nothing
 	}
 	
-	// Update is called once per frame
 	void Update () {
 	    // do nothing
 	}

@@ -6,6 +6,7 @@ using System.Linq;
 public class VictoryWork: MonoBehaviour {
     private List<GameObject> consumablesList = new List<GameObject>();
     private CircleCollider2D radiusMonitor;
+    private VictoryManager victoryManager;
     private int timeCounter = 0;
     private bool alreadyFinishedFlag = false;
 
@@ -19,7 +20,8 @@ public class VictoryWork: MonoBehaviour {
         consumablesList = GameObject.FindGameObjectsWithTag("WorkTargetObjects").ToList();
         radiusMonitor = gameObject.GetComponent<CircleCollider2D>();
         radiusMonitor.radius = workTargetAreaRadius;
-	}
+        victoryManager = gameObject.GetComponent<VictoryManager>();
+    }
 
 	void FixedUpdate () {
         // Here we examine each second if the desired percentage of work target objects are within their designated
@@ -31,8 +33,7 @@ public class VictoryWork: MonoBehaviour {
         }
 	}
     private void checkWorkCompleted() {
-        // Here we get the number of 
-        int searchMaxSize = consumablesList.Count;
+        // Here we get the number of work objects in designated target area and comapre the count to target count
         Collider2D[] workObjectsInTarget = Physics2D.OverlapCircleAll(radiusMonitor.transform.position, 
                                                                       workTargetAreaRadius,
                                                                       LayerMask.NameToLayer("WorkObjLayer"));
@@ -42,6 +43,7 @@ public class VictoryWork: MonoBehaviour {
         }
         else if (alreadyFinishedFlag == false) {
             // Sufficient amount of objects detected - victory!
+            victoryManager.notifyWork(true);
             Debug.Log("Work victory conditions satisfied");
             alreadyFinishedFlag = true;
         }

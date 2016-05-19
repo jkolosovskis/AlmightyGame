@@ -5,9 +5,11 @@ public class DamageCounter : MonoBehaviour
 {
     private AttributesManager Attributes;
     private FuelMonitor fuelMonitor;
+    private VictoryDestruction victoryDestruction;
     public GameObject craterPrefab;
     public float currentDamage = 0;
     public void addDamage(float damage){
+        victoryDestruction.updateDestructionLevel(damage);
         currentDamage += damage;
     }
     // Use this for initialization
@@ -16,10 +18,14 @@ public class DamageCounter : MonoBehaviour
         // and the RigidBody object this script is applied to.
         Attributes = this.gameObject.GetComponent<AttributesManager>();
         fuelMonitor = this.gameObject.GetComponent<FuelMonitor>();
+        victoryDestruction = GameObject.FindObjectOfType<VictoryDestruction>();
     }
     void OnCollisionEnter2D(Collision2D other){
         // Multiply collision impact relative velocity with object mass, apply absorption coefficient to calculate taken damage
-        currentDamage += Attributes.absorptionCoefficient * 0.5f * Mathf.Pow(other.relativeVelocity.magnitude, 2) * Attributes.mass;
+        float collisionDamage = Attributes.absorptionCoefficient * 0.5f * Mathf.Pow(other.relativeVelocity.magnitude, 2) * Attributes.mass;
+        currentDamage += collisionDamage;
+        // Update destruction victory conditions with the collision damage
+        victoryDestruction.updateDestructionLevel(collisionDamage);
     }
     void FixedUpdate(){
         if (Attributes.health < currentDamage){
@@ -35,8 +41,7 @@ public class DamageCounter : MonoBehaviour
             if (consumedObject != null){
                 consumedObject.gameObject.GetComponent<HingeJoint2D>().enabled = false;
             }
-
-            // Finally we get rid of the swarm element that was destroyed.
+            // Finally we get rid of the object that was destroyed.
             Destroy(gameObject);
         }
     }
