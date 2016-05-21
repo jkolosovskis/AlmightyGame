@@ -3,9 +3,11 @@ using System.Collections;
 
 public class FuelMonitor : MonoBehaviour
 {
-    public float fuelLevel = 0f;
+    public float fuelLevel = 5000f;
     private bool scriptsEnable = true;
     private float inertialCoefficient = 0f;
+    public bool isActivated = false;
+
     private Vector2 totalIndependentForce = Vector2.zero;
     private Vector2 totalFuelEffectedForce = Vector2.zero;
     private Vector2 externalForceRegister = Vector2.zero;
@@ -19,6 +21,9 @@ public class FuelMonitor : MonoBehaviour
     public float getFuelLevel(){
         return fuelLevel;
     }
+    public void setFuelLevel(float value) {
+        fuelLevel = value;
+    }
     public void AddForce(Vector2 force, bool isExternalForce){
         if (isExternalForce == false) totalFuelEffectedForce += force;
         else totalIndependentForce += force;
@@ -27,7 +32,7 @@ public class FuelMonitor : MonoBehaviour
         return externalForceRegister;
     }
     // Use this for initialization
-	void Start (){
+	public void initialise (){
         // On start we attempt to retrieve the nominal amount of fuel for an element
         if (gameObject.GetComponent<AttributesManager>() != null){
             fuelLevel = gameObject.GetComponent<AttributesManager>().fuel;
@@ -49,31 +54,38 @@ public class FuelMonitor : MonoBehaviour
         }
         // finally we identify what gameobject's rigidbody2D this script is attached to
         thisBody = gameObject.GetComponent<Rigidbody2D>();
+        if (thisBody != null) {
+            Debug.Log("Rigidbody2D found: " + thisBody.ToString());
+            Debug.Log("Successfully completed all FuelMonitor initialisation functions");
+            isActivated = true;
+        }
+        else Debug.Log("Fuel Monitor initialisation failed - could not find attached Rigidbody2D object");
     }
 	void FixedUpdate (){
-        // Here we apply the total requested force to the object this script is attached to, and calculate the loss
-        // of fuel resulting from force application.
-        // We also implement inertial behaviour here, but use the InertialBehaviour script to retrieve
-        // the relevant inertia coefficients.
-        Vector2 fullForce = (totalFuelEffectedForce + totalIndependentForce) * (1 - inertialCoefficient);
-        Vector2 fuelEffectedForce = totalFuelEffectedForce + fullForce * Mathf.Abs(inertialCoefficient);
-        thisBody.AddForce(fullForce);
-        updateFuel(fuelEffectedForce.magnitude);
-        // Notify other scripts of the sum of external forces
-        // Note that a new Vector2 is set up to avoid cases where externalForceRegister is updated with
-        // a reference to totalIndependentForce instead of a clone of it.
-        externalForceRegister = new Vector2(totalIndependentForce.x, totalIndependentForce.y);
-        // Bugfix - we reset the total applied force counters here
-        totalFuelEffectedForce = Vector2.zero;
-        totalIndependentForce = Vector2.zero;
-        
+        if (isActivated == true) {
+            // Here we apply the total requested force to the object this script is attached to, and calculate the loss
+            // of fuel resulting from force application.
+            // We also implement inertial behaviour here, but use the InertialBehaviour script to retrieve
+            // the relevant inertia coefficients.
+            Vector2 fullForce = (totalFuelEffectedForce + totalIndependentForce) * (1 - inertialCoefficient);
+            Vector2 fuelEffectedForce = totalFuelEffectedForce + fullForce * Mathf.Abs(inertialCoefficient);
+            thisBody.AddForce(fullForce);
+            updateFuel(fuelEffectedForce.magnitude);
+            // Notify other scripts of the sum of external forces
+            // Note that a new Vector2 is set up to avoid cases where externalForceRegister is updated with
+            // a reference to totalIndependentForce instead of a clone of it.
+            externalForceRegister = new Vector2(totalIndependentForce.x, totalIndependentForce.y);
+            // Bugfix - we reset the total applied force counters here
+            totalFuelEffectedForce = Vector2.zero;
+            totalIndependentForce = Vector2.zero;
+        }        
     }
     public void updateFuel(float fuelDelta){
         if (scriptsEnable != false) {
             fuelLevel -= fuelDelta;
             if (fuelLevel <= 0f) {
                 // stop all fuel consuming scripts if fuel level is zero and any behaviour is still running
-                Debug.Log(string.Concat("Empty fuel handling entered"));
+                Debug.Log("Empty fuel handling entered");
                 scriptsEnable = false;
                 fuelLevel = 0;
                 // We also stop any fuel consuming scripts here.

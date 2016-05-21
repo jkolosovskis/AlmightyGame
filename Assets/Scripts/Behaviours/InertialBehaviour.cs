@@ -3,15 +3,12 @@ using System.Collections;
 
 public class InertialBehaviour : MonoBehaviour {
     public float inertialCoefficient = 1.0f;
-    // Use this for initialization
+    // Logic for intertial behaviour is implemented in fuel monitoring script
+    // since it handles all force application requests.
+    public void setInertialCoefficient(float value) {
+        inertialCoefficient = value;
+    }
     public float getInertialCoefficient(){
         return inertialCoefficient;
     }
-    void Start () {
-	    // do nothing
-	}
-	
-	void Update () {
-	    // do nothing
-	}
 }

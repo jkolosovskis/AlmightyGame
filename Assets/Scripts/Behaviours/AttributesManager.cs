@@ -39,11 +39,4 @@ public class AttributesManager : MonoBehaviour
             assignedRigidbody.mass = mass;        
         }
     }
-	
-	// Update is called once per frame
-	void Update ()
-    {
-        // AttributeManager script is used to establish default attributes for objects,
-        // so nothing expected to be updated every frame in this script.
-	}
 }

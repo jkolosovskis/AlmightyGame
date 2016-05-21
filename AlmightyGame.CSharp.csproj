@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Behaviours\AttributesManager.cs" />
+    <Compile Include="Assets\Scripts\Behaviours\BehavioursManager.cs" />
     <Compile Include="Assets\Scripts\Behaviours\ConsumeBehaviour.cs" />
     <Compile Include="Assets\Scripts\Behaviours\ConsumeFuelBehaviour.cs" />
     <Compile Include="Assets\Scripts\Behaviours\DamageCounter.cs" />
