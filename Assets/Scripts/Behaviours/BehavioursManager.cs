@@ -79,7 +79,6 @@ public class BehavioursManager : MonoBehaviour {
 
     // Here we build a swarm element group 1 prefab by assigning UI behaviour values to it.
     public GameObject buildSwarmGroup1Element() {
-        // TODO
         // Load swarm element prefab here.
         GameObject swarm1Prefab = (GameObject)Resources.Load("prefabs/Swarms/swarmObject");
         // Set up follow behaviour here:
@@ -87,9 +86,27 @@ public class BehavioursManager : MonoBehaviour {
         followBehaviour.setFollowForceMultiplier(followForce);
         followBehaviour.setMaxFollowDistance(followDistance);
         followBehaviour.enabled = followEnabled;
-        //if (followEnabled) followBehaviour.initialise();
+        // Set up random movement behaviour here:
+        randomMovementScript = swarm1Prefab.GetComponent<RandomMovementScript>();
+        randomMovementScript.setMaxRandForceMagnitudeX(randMovMaxForceX);
+        randomMovementScript.setMaxRandForceMagnitudeY(randMovMaxForceY);
+        randomMovementScript.setMinRandForceMagnitudeX(randMovMinForceX);
+        randomMovementScript.setMinRandForceMagnitudeY(randMovMinForceY);
+        randomMovementScript.enabled = randomMovementEnabled;
+        // Set up MaintainMotion behaviour here:
+        inertialBehaviour = swarm1Prefab.GetComponent<InertialBehaviour>();
+        inertialBehaviour.setInertialCoefficient(maintainMotionCoefficient);
+        // Set up reactive behaviour here:
+        reactiveBehaviour = swarm1Prefab.GetComponent<ReactiveBehaviour>();
+        reactiveBehaviour.setReactiveForceMultiplier(repulseForce);
+        reactiveBehaviour.enabled = repulseEnabled;
+        // Set up orbit behaviour here:
+        orbitBehaviour = swarm1Prefab.GetComponent<OrbitBehaviour>();
+        orbitBehaviour.setOrbitForce(orbitForce);
+        orbitBehaviour.setOrbitDistance(orbitDistance);
+        orbitBehaviour.enabled = orbitEnabled;
+        // All work done - pass the resulting swarm element prefab to caller function.
         return swarm1Prefab;
-        
     }
 
     void Start() {

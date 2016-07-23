@@ -31,6 +31,17 @@ public class BehaviourSetupApply : MonoBehaviour {
     private Slider OrbitForceSlider;
     private Slider OrbitDistanceSlider;
 
+    private Text FollowForceText;
+    private Text FollowDistanceText;
+    private Text MaintainMotionCoefficientText;
+    private Text RandMovMaxXText;
+    private Text RandMovMaxYText;
+    private Text RandMovMinXText;
+    private Text RandMovMinYText;
+    private Text RepulseForceText;
+    private Text OrbitForceText;
+    private Text OrbitDistanceText;
+
     private int currentDropdown = 0; 
 
     void Start() {
@@ -58,6 +69,17 @@ public class BehaviourSetupApply : MonoBehaviour {
         RepulseForceSlider = GameObject.Find("RepulseForceSlider").GetComponent<Slider>();
         OrbitForceSlider = GameObject.Find("OrbitForceSlider").GetComponent<Slider>();
         OrbitDistanceSlider = GameObject.Find("OrbitDistanceSlider").GetComponent<Slider>();
+        // Continued by identifying UI slider value text elements.
+        FollowForceText = GameObject.Find("FollowForceText").GetComponent<Text>();
+        FollowDistanceText = GameObject.Find("FollowDistanceText").GetComponent<Text>();
+        MaintainMotionCoefficientText = GameObject.Find("MaintainMotionCoefficientText").GetComponent<Text>();
+        RandMovMaxXText = GameObject.Find("RandMovMaxXText").GetComponent<Text>();
+        RandMovMaxYText = GameObject.Find("RandMovMaxYText").GetComponent<Text>();
+        RandMovMinXText = GameObject.Find("RandMovMinXText").GetComponent<Text>();
+        RandMovMinYText = GameObject.Find("RandMovMinYText").GetComponent<Text>();
+        RepulseForceText = GameObject.Find("RepulseForceText").GetComponent<Text>();
+        OrbitForceText = GameObject.Find("OrbitForceText").GetComponent<Text>();
+        OrbitDistanceText = GameObject.Find("OrbitDistanceText").GetComponent<Text>();
 
         //We also find the root container of UI behaviours that will be passed to other scenes.
         behavioursManager = GameObject.Find("BehavioursConfigContainer").GetComponent<BehavioursManager>();
@@ -68,6 +90,37 @@ public class BehaviourSetupApply : MonoBehaviour {
         BehaviourSelector = GameObject.FindObjectOfType<Dropdown>();
         BehaviourSelector.onValueChanged.AddListener(delegate {
             selectBehaviourEdit(BehaviourSelector);
+        });
+        // Similarly, we add listeners for all sliders in order to update the text descriptions with current values.
+        FollowForceSlider.onValueChanged.AddListener(delegate {
+            updateFollowForceText(FollowForceSlider);
+        });
+        FollowDistanceSlider.onValueChanged.AddListener(delegate {
+            updateFollowDistanceText(FollowDistanceSlider);
+        });
+        MaintainMotionCoefficientSlider.onValueChanged.AddListener(delegate {
+            updateMaintainMotionCoefficientSliderText(MaintainMotionCoefficientSlider);
+        });
+        RandMovMaxForceXSlider.onValueChanged.AddListener(delegate {
+            updateRandMovMaxXText(RandMovMaxForceXSlider);
+        });
+        RandMovMaxForceYSlider.onValueChanged.AddListener(delegate {
+            updateRandMovMaxYText(RandMovMaxForceYSlider);
+        });
+        RandMovMinForceXSlider.onValueChanged.AddListener(delegate {
+            updateRandMovMinXText(RandMovMinForceXSlider);
+        });
+        RandMovMinForceYSlider.onValueChanged.AddListener(delegate {
+            updateRandMovMinYText(RandMovMinForceYSlider);
+        });
+        RepulseForceSlider.onValueChanged.AddListener(delegate {
+            updateRepulseForceText(RepulseForceSlider);
+        });
+        OrbitForceSlider.onValueChanged.AddListener(delegate {
+            updateOrbitForceText(OrbitForceSlider);
+        });
+        OrbitDistanceSlider.onValueChanged.AddListener(delegate {
+            updateOrbitDistanceText(OrbitDistanceSlider);
         });
     }
     // Reusable function to clear all behaviour UI containers before activating the user selected container
@@ -116,10 +169,41 @@ public class BehaviourSetupApply : MonoBehaviour {
                 break;
         }
     }
+    // *** Slider text update functions ***
+    public void updateFollowForceText (Slider FollowForceSlider) {
+        FollowForceText.text = FollowForceSlider.value.ToString("F2") + "N";
+    }
+    public void updateFollowDistanceText(Slider FollowDistanceSlider) {
+        FollowDistanceText.text = FollowDistanceSlider.value.ToString("F2") + "m";
+    }
+    public void updateMaintainMotionCoefficientSliderText(Slider MaintainMotionCoefficientSlider) {
+        MaintainMotionCoefficientText.text = MaintainMotionCoefficientSlider.value.ToString("F2");
+    }
+    public void updateRandMovMaxXText(Slider RandMovMaxForceXSlider) {
+        RandMovMaxXText.text = RandMovMaxForceXSlider.value.ToString("F2") + "N";
+    }
+    public void updateRandMovMaxYText(Slider RandMovMaxForceYSlider) {
+        RandMovMaxYText.text = RandMovMaxForceYSlider.value.ToString("F2") + "N";
+    }
+    public void updateRandMovMinXText(Slider RandMovMinForceXSlider) {
+        RandMovMinXText.text = RandMovMinForceXSlider.value.ToString("F2") + "N";
+    }
+    public void updateRandMovMinYText(Slider RandMovMinForceYSlider) {
+        RandMovMinYText.text = RandMovMinForceYSlider.value.ToString("F2") + "N";
+    }
+    public void updateRepulseForceText(Slider RepulseForceSlider) {
+        RepulseForceText.text = RepulseForceSlider.value.ToString("F2") + "N";
+    }
+    public void updateOrbitForceText(Slider OrbitForceSlider) {
+        OrbitForceText.text = OrbitForceSlider.value.ToString("F2") + "N";
+    }
+    public void updateOrbitDistanceText(Slider OrbitDistanceSlider) {
+        OrbitDistanceText.text = OrbitDistanceSlider.value.ToString("F2") + "m";
+    }
     // Function for switching between behaviour configuration panels
     // In every case, we update our swarm settings with latest values 
     // from UI sliders before disabling the previous UI part.
-	private void selectBehaviourEdit (Dropdown behaviourSelector) {
+    private void selectBehaviourEdit (Dropdown behaviourSelector) {
         deactivateAllUIMenus();
         switch (behaviourSelector.value) {
             case 0:

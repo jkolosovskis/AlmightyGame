@@ -19,7 +19,7 @@ public class magneticBehaviour : MonoBehaviour {
         {
             // First, let's see if any objects with swarm element tags are in range...
             // Bugfix - null exceptions invoked when attempting to affect an object that had been destroyed.
-            if (!(magneticTargetObject[i] == null))
+            if (magneticTargetObject[i] != null)
             {
                 // Precalculate distance between two bodies in question for later use:
                 float distBetweenObjs = Vector2.Distance(gameObject.transform.position, magneticTargetObject[i].transform.position);
@@ -36,7 +36,7 @@ public class magneticBehaviour : MonoBehaviour {
                     magneticForce = magneticForce * magneticForceMultiplier;
                     // Now that we have calculated the precise force, we apply it to the target object.
                     FuelMonitor fuelScript = magneticTargetObject[i].GetComponent<FuelMonitor>();
-                    //targetBody.AddForce(magneticForce);
+                    if (fuelScript == null) Debug.Log("Retrieval of fuelMonitor script failed for " + magneticTargetObject[i].ToString());
                     fuelScript.AddForce(magneticForce,true);
                 }
             }

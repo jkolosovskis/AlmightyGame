@@ -32,12 +32,29 @@ public class SwarmSpawnScript : MonoBehaviour {
             // Initialise FuelMonitor logic:
             fuelMonitor = spawnedSwarmObjects[i].GetComponent<FuelMonitor>();
             fuelMonitor.initialise();
+            // >>> TODO - set fuel level according to level presets!! <<<
             fuelMonitor.setFuelLevel(5000f);
             // Check if Follow behaviour is present, and initialise it if necessary.
             if (spawnedSwarmObjects[i].GetComponent<FollowBehaviour>() != null) {
                 spawnedSwarmObjects[i].GetComponent<FollowBehaviour>().initialise();
             }
             else Debug.Log("Skipping FollowBehaviour initialisation - script not found or not active");
+            // Check if Random Movement behaviour is present, and initialise it if necessary.
+            if (spawnedSwarmObjects[i].GetComponent<RandomMovementScript>() != null) {
+                spawnedSwarmObjects[i].GetComponent<RandomMovementScript>().initialise();
+            }
+            else Debug.Log("Skipping Random Movement behaviour initialisation - script not found or not active");
+            // No need to initialise inertial behaviour - handled in fuel monitor script.
+            // Check if Repulse behaviour is present, and initialise it if necessary.
+            if (spawnedSwarmObjects[i].GetComponent<ReactiveBehaviour>() != null) {
+                spawnedSwarmObjects[i].GetComponent<ReactiveBehaviour>().initialise();
+            }
+            else Debug.Log("Skipping Repulse behaviour initialisation - script not found or not active");
+            // Check if Orbit behaviour is present, and initialise it if necessary.
+            if (spawnedSwarmObjects[i].GetComponent<OrbitBehaviour>() != null) {
+                spawnedSwarmObjects[i].GetComponent<OrbitBehaviour>().initialise();
+            }
+            else Debug.Log("Skipping Orbit behaviour initialisation - script not found or not active");
         }
     }
 }

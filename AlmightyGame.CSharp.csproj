@@ -84,6 +84,7 @@
     <Compile Include="Assets\Scripts\Startup\SwarmSpawnScript.cs" />
     <Compile Include="Assets\Scripts\UI\BehaviourSetupApply.cs" />
     <Compile Include="Assets\Scripts\UI\MainMenuUILogic.cs" />
+    <Compile Include="Assets\Scripts\UI\OverlaysManager.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

@@ -7,18 +7,39 @@ public class RandomMovementScript : MonoBehaviour {
 	public float minRandomForceMagnitudeX = -5f;
 	public float minRandomForceMagnitudeY = -5f;
 
+    private bool isInitialised = false;
+
     private FuelMonitor fuelObject;
 
-	// Use this for initialization
-	void Start () 
+    // *** EXTERNAL TRIGGER FUNCTIONS ***
+    public void initialise () 
 	{
         fuelObject = GetComponent<FuelMonitor>();
+        if (fuelObject != null) {
+            Debug.Log("Successfully initialised random movement behaviour");
+            isInitialised = true;
+        }
+        else Debug.Log("Failed to initialise random movement behaviour - missing fuel monitor script");
     }
-	
-	// Update is called once per frame
-	void FixedUpdate () 
+    public void setMaxRandForceMagnitudeX (float value) {
+        maxRandomForceMagnitudeX = value;
+    }
+    public void setMaxRandForceMagnitudeY (float value) {
+        maxRandomForceMagnitudeY = value;
+    }
+    public void setMinRandForceMagnitudeX (float value) {
+        minRandomForceMagnitudeX = value;
+    }
+	public void setMinRandForceMagnitudeY (float value) {
+        minRandomForceMagnitudeY = value;
+    }
+
+    // *** PERIODIC FUNCTIONS ***
+	void FixedUpdate ()
 	{
-        Vector2 calculatedForce = new Vector2(Random.Range(minRandomForceMagnitudeX, maxRandomForceMagnitudeX), Random.Range(minRandomForceMagnitudeY, maxRandomForceMagnitudeY));
-        fuelObject.AddForce(calculatedForce,false);
+        if (isInitialised) {
+            Vector2 calculatedForce = new Vector2(Random.Range(minRandomForceMagnitudeX, maxRandomForceMagnitudeX), Random.Range(minRandomForceMagnitudeY, maxRandomForceMagnitudeY));
+            fuelObject.AddForce(calculatedForce, false);
+        }
 	}
 }
