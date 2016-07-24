@@ -3,6 +3,7 @@ using System.Collections;
 
 public class magneticBehaviour : MonoBehaviour {
     private GameObject[] magneticTargetObject;
+    private FuelMonitor fuelScript;
     public float magneticForceMultiplier = -2f;
     public float maxMagneticDistance = 5f;
     
@@ -35,9 +36,9 @@ public class magneticBehaviour : MonoBehaviour {
                     // Finally, we apply our predefined multiplier of magnetic interaction
                     magneticForce = magneticForce * magneticForceMultiplier;
                     // Now that we have calculated the precise force, we apply it to the target object.
-                    FuelMonitor fuelScript = magneticTargetObject[i].GetComponent<FuelMonitor>();
+                    fuelScript = magneticTargetObject[i].GetComponent<FuelMonitor>();
                     if (fuelScript == null) Debug.Log("Retrieval of fuelMonitor script failed for " + magneticTargetObject[i].ToString());
-                    fuelScript.AddForce(magneticForce,true);
+                    else fuelScript.AddForce(magneticForce,true);
                 }
             }
         }

@@ -31,6 +31,9 @@ public class FuelMonitor : MonoBehaviour
     public Vector2 getExternalForces(){
         return externalForceRegister;
     }
+    public void modFuelLevel (float value) {
+        fuelLevel += value;
+    }
     // Use this for initialization
 	public void initialise (){
         // On start we attempt to retrieve the nominal amount of fuel for an element
